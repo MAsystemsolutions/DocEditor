@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fill &amp; Sign · HR Hub by Mia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700&family=Jost:wght@400;500;600&family=IBM+Plex+Mono:wght@400&family=Great+Vibes&family=Dancing+Script:wght@600&family=Allura&family=Homemade+Apple&display=swap">
+<style>
+/* HR Hub by Mia — shared styles. Change the brand color in one place: --accent. */
+:root{
+  --bg:#16171A; --panel:#1F2124; --line:#33363B; --ink:#ECE8E1; --muted:#A39F97; --soft:#2A2D31;
+  --accent:#D9A24E; --accent-ink:#1B1408; --accent-soft:#3A2F1C; --danger:#F08A80; --warn:#E3B55A; --desk:#0F1012;
+  color-scheme:dark;
+  --f-display:"Bodoni Moda", "Didot", Georgia, serif;
+  --f-body:"Jost", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r:8px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+[hidden]{display:none!important}
+img{max-width:100%}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* top bar */
+.hub-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border-bottom:1px solid var(--line);
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hub-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.hub-brand img{height:38px;width:auto}
+.hub-brand b{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.01em}
+.hub-brand span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.hub-crumb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+.hub-crumb strong{color:var(--ink);font-weight:600}
+.hub-top .grow{flex:1}
+.hub-private{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.hub-private::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 20px;margin-bottom:18px}
+.page-head h1{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,4vw,34px);line-height:1.1;margin:0;text-wrap:balance}
+.page-head p{margin:0;color:var(--muted);max-width:62ch}
+.replaces{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 10px;background:var(--panel)}
+.cols{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+.cols.wide-left{grid-template-columns:400px minmax(0,1fr)}
+@media (max-width:860px){.cols,.cols.wide-left{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0}
+.panel h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 12px}
+.panel + .panel{margin-top:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:480px){.grid2,.grid3{grid-template-columns:1fr}}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.mono{font-family:var(--f-mono);font-size:13px}
+hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0}
+
+/* form controls */
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field>label,.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.field input[type=text],.field input[type=number],.field input[type=email],.field input[type=url],.field input[type=tel],.field input[type=date],.field input[type=time],
+.field select,.field textarea,.input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
+.field textarea{min-height:90px;resize:vertical}
+.field input[type=color]{width:100%;height:38px;border:1px solid var(--line);border-radius:6px;padding:2px;background:var(--panel)}
+.check{display:flex;align-items:center;gap:8px;font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:8px 14px;line-height:1.2;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover:not(:disabled){background:var(--soft)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover:not(:disabled){filter:brightness(1.08);background:var(--accent)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn.danger{color:var(--danger)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;border-right:1px solid var(--line);background:transparent;padding:7px 12px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--accent);font-weight:600}
+
+/* drop zone */
+.drop{border:2px dashed var(--line);border-radius:var(--r);background:var(--panel);padding:28px 18px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop strong{display:block;font-size:16px;margin-bottom:2px}
+.drop .muted{font-size:13px}
+
+/* file list */
+.files{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.files li{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;padding:7px 10px;background:var(--panel);min-width:0}
+.files li .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.files li .meta{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+
+/* stage for page previews */
+.stage{scrollbar-gutter:stable;background:var(--desk);border-radius:var(--r);padding:20px;overflow:auto;min-height:360px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.sheet{position:relative;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.16),0 8px 24px rgba(0,0,0,.10);flex:none}
+.sheet canvas{display:block}
+.empty-note{color:var(--muted);text-align:center;margin:auto;max-width:40ch}
+
+.progress{height:6px;background:var(--soft);border-radius:4px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:0 6px 6px 0;font-size:13.5px}
+.note.warn{border-color:var(--warn);background:#3A3020}
+table.data{border-collapse:collapse;width:100%;font-size:13.5px}
+table.data th,table.data td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;white-space:nowrap}
+table.data th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll-x{overflow-x:auto}
+
+.hub-toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;max-width:calc(100% - 32px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:100}
+.hub-toast.show{opacity:1}
+
+</style>
+<style>
+.pad{border:1px solid var(--line);border-radius:6px;background:#fff;touch-action:none;width:100%;height:150px;display:block;cursor:crosshair}
+.typed-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.typed-opts button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px;font-size:26px;line-height:1.1;color:#14213d;overflow:hidden;white-space:nowrap}
+.typed-opts button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.preview-sig{height:64px;border:1px dashed var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;background:#fff}
+.preview-sig img{max-height:56px}
+.place-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.item{position:absolute;border:1px dashed transparent;cursor:move;touch-action:none}
+.item:hover,.item.sel{border-color:var(--accent)}
+.item img{width:100%;height:100%;display:block;pointer-events:none}
+.item .txt{white-space:pre;font-family:Helvetica,Arial,sans-serif;color:#111;line-height:1;outline:none;cursor:text;min-width:10px;display:block}
+.item .h{position:absolute;right:-6px;bottom:-6px;width:12px;height:12px;background:var(--accent);border-radius:2px;cursor:nwse-resize;display:none}
+.item .x{position:absolute;right:-10px;top:-10px;width:20px;height:20px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:12px;line-height:20px;padding:0;display:none}
+.item.sel .h,.item.sel .x{display:block}
+.sheet.placing{cursor:copy}
+.item{z-index:3}
+.ff{position:absolute;z-index:2;color-scheme:light}
+.sigspot{color-scheme:light}
+.ff input[type=text],.ff textarea,.ff select{display:block;width:100%;height:100%;border:1px solid rgba(201,145,62,.95);background:rgba(255,246,222,.92);color:#111;font-family:Helvetica,Arial,sans-serif;padding:0 3px;border-radius:2px;margin:0;resize:none;outline:none;min-height:0}
+.ff textarea{padding:2px 3px;line-height:1.2}
+.ff input:focus,.ff textarea:focus,.ff select:focus{background:#fff;box-shadow:0 0 0 2px rgba(217,162,78,.55)}
+.ff input[type=checkbox],.ff input[type=radio]{display:block;width:100%;height:100%;margin:0;accent-color:#111;cursor:pointer}
+.ff.missing input,.ff.missing textarea,.ff.missing select{border-color:#e5484d;box-shadow:0 0 0 2px rgba(229,72,77,.45)}
+.sigspot{position:absolute;z-index:2;border:2px dashed #D9A24E;background:rgba(255,246,222,.92);display:flex;align-items:stretch;border-radius:3px;padding:0}
+.sigspot:focus-within{background:#fff;box-shadow:0 0 0 2px rgba(217,162,78,.55)}
+.sigtype{flex:1;min-width:0;height:100%;border:0;background:transparent;font-family:"Great Vibes","Dancing Script",cursive;color:#14213d;padding:0 6px;outline:none}
+.sigtype::placeholder{font:500 12px Jost,sans-serif;color:#7a5614}
+.sigdraw{border:0;background:transparent;cursor:pointer;font-size:14px;padding:0 6px;color:#7a5614}
+.sigdraw:hover{background:rgba(217,162,78,.25)}
+.sigspot.missing{border-color:#e5484d}
+.sigspot.done{display:none}
+.pg-label{font-size:12px;color:var(--muted);font-family:var(--f-mono);margin-bottom:-12px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="page-head"><h1>Fill &amp; Sign</h1><span class="replaces">Instead of DocuSign or Adobe Sign for self-signing</span>
+    <p>Fill in a form, type your name in the signature boxes, and download a locked copy that can't be changed. You can also place a signature anywhere on any PDF.</p></div>
+  <div class="cols">
+    <aside>
+      <div class="panel stack">
+        <h2>1 · Document</h2>
+        <div class="drop" id="drop"><strong>Choose a PDF</strong><span class="muted">or drop it here</span></div>
+        <div class="row between small" id="docInfo" hidden><span class="mono" id="docName"></span><button class="btn sm" id="swap">Change file</button></div>
+      </div>
+      <div class="panel stack">
+        <h2>2 · Your signature <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional for forms)</span></h2>
+        <div class="seg" id="kindSeg"><button aria-pressed="true" data-k="sig">Signature</button><button aria-pressed="false" data-k="ini">Initials</button></div>
+        <div class="seg" id="modeSeg"><button aria-pressed="true" data-m="type">Type</button><button aria-pressed="false" data-m="draw">Draw</button><button aria-pressed="false" data-m="upload">Upload</button></div>
+        <div id="mType" class="stack">
+          <div class="field"><label for="typedName">Name</label><input type="text" id="typedName" value="Jordan Rivera"></div>
+          <div class="typed-opts" id="typedOpts"></div>
+        </div>
+        <div id="mDraw" class="stack" hidden>
+          <canvas class="pad" id="pad"></canvas>
+          <div class="row between"><span class="small muted">Sign with your mouse, finger or stylus</span><button class="btn sm" id="clearPad">Clear</button></div>
+        </div>
+        <div id="mUpload" class="stack" hidden>
+          <div class="drop" id="sigDrop" style="padding:16px"><strong style="font-size:14px">Upload a signature image</strong><span class="muted">PNG or JPG; white background is removed</span></div>
+        </div>
+        <div class="field"><label for="inkColor">Ink</label>
+          <select id="inkColor"><option value="#14213d">Navy</option><option value="#111111">Black</option><option value="#1f4fd1">Blue</option></select></div>
+        <div class="grid2">
+          <div><div class="lbl" style="margin-bottom:4px">Signature</div><div class="preview-sig" id="pvSig"><span class="small muted">None yet</span></div></div>
+          <div><div class="lbl" style="margin-bottom:4px">Initials</div><div class="preview-sig" id="pvIni"><span class="small muted">None yet</span></div></div>
+        </div>
+      </div>
+      <div class="panel stack" id="formPanel" hidden>
+        <h2>Form fields</h2>
+        <p class="small" id="formInfo" style="margin:0"></p>
+        <button class="btn sm" id="nextField">Go to the next empty field</button>
+        <label class="check"><input type="checkbox" id="lockForm" checked> Lock the form when downloading</label>
+        <p class="small muted" style="margin:0">Locked forms keep the answers but can't be filled in or changed anymore.</p>
+      </div>
+      <div class="panel stack">
+        <h2>3 · Place on the page</h2>
+        <div class="place-btns">
+          <button class="btn" data-add="sig">Signature</button>
+          <button class="btn" data-add="ini">Initials</button>
+          <button class="btn" data-add="date">Date</button>
+          <button class="btn" data-add="text">Text</button>
+          <button class="btn" data-add="check">Checkmark</button>
+          <button class="btn" data-add="name">Printed name</button>
+        </div>
+        <div class="field"><label for="dateFmt">Date format</label>
+          <select id="dateFmt"><option value="us">MM/DD/YYYY</option><option value="long">Month DD, YYYY</option><option value="iso">YYYY-MM-DD</option><option value="intl">DD/MM/YYYY</option></select></div>
+        <p class="small muted" id="placeHint" style="margin:0">Pick an item, then click on the page where it goes. Drag to move, use the corner to resize.</p>
+        <button class="btn primary" id="save" disabled>Download signed PDF</button>
+      </div>
+    </aside>
+    <section class="stage" id="stage"><p class="empty-note">Choose a PDF to start. You can also <a href="#" id="sample">try a sample document</a>.</p></section>
+  </div>
+</main>
+<script>
+/* HR Hub by Mia — shared helpers used by every tool. Nothing here stores or sends data anywhere. */
+(function () {
+  const LIBS = {
+    pdfjs: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    pdflib: 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
+    fontkit: 'https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js',
+    jszip: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+    papa: 'https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js',
+    xlsx: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+    diff: 'https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.1.0/diff.min.js',
+    tesseract: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js',
+    qrcode: 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js',
+    jsbarcode: 'https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js'
+  };
+  const PDF_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const loaded = {};
+
+  const Hub = {
+    company: { name: 'Acme Co', site: 'acmeco.com' },
+    LOGO: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PHJlY3Qgd2lkdGg9JzY0JyBoZWlnaHQ9JzY0JyByeD0nMTQnIGZpbGw9JyMxRjIxMjQnLz48cmVjdCB4PScxMicgeT0nNTAnIHdpZHRoPSc0MCcgaGVpZ2h0PSc1JyBmaWxsPScjRDlBMjRFJy8+PHRleHQgeD0nMzInIHk9JzM4JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSc3MDAnIGZvbnQtc2l6ZT0nMjYnIGZpbGw9JyNmZmZmZmYnPkhSPC90ZXh0Pjwvc3ZnPg==',
+
+    /** Load one or more libraries by key (see LIBS) or URL. Each loads once. */
+    load(...keys) {
+      return Promise.all(keys.map(k => {
+        const url = LIBS[k] || k;
+        if (!loaded[url]) loaded[url] = new Promise((res, rej) => {
+          const s = document.createElement('script'); s.src = url; s.onload = res;
+          s.onerror = () => rej(new Error('Could not load a required library. Check your internet connection and reload.'));
+          document.head.appendChild(s);
+        });
+        return loaded[url];
+      })).then(() => { if (window.pdfjsLib && !pdfjsLib.GlobalWorkerOptions.workerSrc) pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER; });
+    },
+
+    /** Tab icon: a dark rounded square with a green bar and a short code, so HR Hub tabs never look like the Acme Co logo. */
+    favicon(code) {
+      const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+      x.fillStyle = '#1F2124'; x.beginPath(); x.roundRect ? x.roundRect(0, 0, 64, 64, 14) : x.rect(0, 0, 64, 64); x.fill();
+      x.fillStyle = '#D9A24E'; x.fillRect(12, 50, 40, 5);
+      x.fillStyle = '#FFFFFF'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = `700 ${code.length > 2 ? 21 : 28}px Arial, Helvetica, sans-serif`; x.fillText(code, 32, 29);
+      document.querySelectorAll('link[rel~="icon"]').forEach(l => l.remove());
+      const l = document.createElement('link'); l.rel = 'icon'; l.type = 'image/png'; l.href = c.toDataURL('image/png'); document.head.appendChild(l);
+    },
+    ICONS: { 'pdf-editor': 'PE', 'form-builder': 'FF', 'sign-pdf': 'SI', 'pdf-compare': 'CP', 'ocr': 'OCR', 'bates-numbering': 'BN', 'mail-merge': 'MM',
+      'certificate-designer': 'CD', 'social-graphics': 'AG', 'background-remover': 'BG', 'email-signature': 'ES', 'time-zones': 'TZ', 'label-maker': 'QR', 'lock-pdf': 'LK' },
+
+    /** Insert the shared top bar. */
+    mount(title) {
+      const file = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+      Hub.favicon(Hub.ICONS[file] || 'HR');
+      const home = './';
+      const h = document.createElement('header'); h.className = 'hub-top';
+      h.innerHTML = `<a class="hub-brand" href="${home}index.html"><img src="${Hub.LOGO}" alt="HR Hub logo"><b>HR Hub</b><span>by Mia</span></a>
+        ${title ? `<span class="hub-crumb">/ <strong></strong></span>` : ''}<span class="grow"></span>
+        <span class="hub-private" title="Files are processed in your browser and never uploaded">Files stay on your computer</span>`;
+      if (title) h.querySelector('strong').textContent = title;
+      document.body.prepend(h);
+      if (title) document.title = title + ' · HR Hub by Mia';
+    },
+
+    toast(msg, ms = 2800) {
+      let t = document.querySelector('.hub-toast');
+      if (!t) { t = document.createElement('div'); t.className = 'hub-toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+      t.textContent = msg; t.classList.add('show'); clearTimeout(Hub._tt); Hub._tt = setTimeout(() => t.classList.remove('show'), ms);
+    },
+
+    /** Save a Blob/bytes/string as a file. */
+    download(data, filename, type) {
+      const blob = data instanceof Blob ? data : new Blob([data], { type: type || 'application/octet-stream' });
+      const u = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(u), 5000);
+    },
+
+    async zip(files, zipName) {
+      await Hub.load('jszip');
+      const z = new JSZip(); files.forEach(f => z.file(f.name, f.data));
+      Hub.download(await z.generateAsync({ type: 'blob' }), zipName);
+    },
+
+    bytes: async f => new Uint8Array(await f.arrayBuffer()),
+    dataURL: f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f); }),
+    loadImage: src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }),
+    baseName: n => (n || 'file').replace(/\.[^.]+$/, ''),
+    size: b => b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(0) + ' KB' : (b / 1048576).toFixed(1) + ' MB',
+    esc: s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])),
+
+    /** Make an element a click-or-drop file picker. */
+    dropzone(el, { accept = '', multiple = false, onFiles }) {
+      const inp = document.createElement('input'); inp.type = 'file'; inp.accept = accept; inp.multiple = multiple; inp.hidden = true;
+      el.after(inp); el.tabIndex = 0; el.setAttribute('role', 'button');
+      const take = list => { const fs = [...list]; if (fs.length) onFiles(multiple ? fs : [fs[0]]); };
+      el.addEventListener('click', () => inp.click());
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inp.click(); } });
+      inp.addEventListener('change', () => { take(inp.files); inp.value = ''; });
+      el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('over'); });
+      el.addEventListener('dragleave', () => el.classList.remove('over'));
+      el.addEventListener('drop', e => { e.preventDefault(); el.classList.remove('over'); take(e.dataTransfer.files); });
+      return inp;
+    },
+
+    /** Open a PDF with pdf.js (keeps the original bytes intact). */
+    async openPdf(bytes) {
+      await Hub.load('pdfjs');
+      try { return await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise; }
+      catch (e) { throw new Error(e && e.name === 'PasswordException' ? 'This PDF is password-protected. Remove the password first.' : 'That file could not be read as a PDF.'); }
+    },
+
+    /** Render a pdf.js page to a canvas at a given scale. */
+    async renderPage(page, scale, canvas, rotation) {
+      const vp = page.getViewport({ scale, rotation: rotation ?? page.rotate });
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas = canvas || document.createElement('canvas');
+      canvas.width = Math.floor(vp.width * dpr); canvas.height = Math.floor(vp.height * dpr);
+      canvas.style.width = vp.width + 'px'; canvas.style.height = vp.height + 'px';
+      const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      return { canvas, viewport: vp };
+    },
+
+    /** Re-render without jumping: keep the page's scroll position. */
+    async keepScroll(fn) { const y = window.scrollY, h = document.documentElement.scrollHeight || 1; await fn(); window.scrollTo(0, y * (document.documentElement.scrollHeight / h)); },
+
+    hexRgb(h) { const n = parseInt((h || '#000000').slice(1), 16); return PDFLib.rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255); },
+
+    /** Make text safe for standard PDF fonts. */
+    winAnsi: s => String(s || '').normalize('NFKC').replace(/₱/g, 'PHP ')
+      .replace(/[^\n\x20-\x7E\xA0-\xFF‘’“”–—•€…]/g, '?'),
+
+    /** Read a CSV or Excel file (or pasted CSV text) into { headers, rows:[{col:value}] }. */
+    async readTable(fileOrText) {
+      let rows;
+      if (typeof fileOrText === 'string' || /\.(csv|txt|tsv)$/i.test(fileOrText.name)) {
+        await Hub.load('papa');
+        const text = typeof fileOrText === 'string' ? fileOrText : await fileOrText.text();
+        rows = Papa.parse(text.trim(), { header: true, skipEmptyLines: true, transformHeader: h => h.trim() }).data;
+      } else {
+        await Hub.load('xlsx');
+        const wb = XLSX.read(await fileOrText.arrayBuffer(), { type: 'array', cellDates: true });
+        rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '', raw: false });
+      }
+      rows = rows.filter(r => Object.values(r).some(v => String(v).trim()));
+      const headers = rows.length ? Object.keys(rows[0]).filter(h => h && !/^__EMPTY/.test(h)) : [];
+      return { headers, rows };
+    },
+
+    /** Wrap text into lines that fit a width with a pdf-lib font. */
+    wrap(text, font, size, maxW) {
+      const out = [];
+      String(text).split('\n').forEach(par => {
+        if (!par.trim()) { out.push(''); return; }
+        let line = '';
+        par.split(/(\s+)/).forEach(tok => {
+          const test = line + tok;
+          if (font.widthOfTextAtSize(test.trimEnd(), size) <= maxW || !line.trim()) line = test;
+          else { out.push(line.trimEnd()); line = tok.trimStart(); }
+        });
+        out.push(line.trimEnd());
+      });
+      return out;
+    },
+
+    /** Make a small working state for a tool when there is nothing loaded yet. */
+    async samplePdf(lines, title) {
+      await Hub.load('pdflib');
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
+      const d = await PDFDocument.create(), f = await d.embedFont(StandardFonts.Helvetica), fb = await d.embedFont(StandardFonts.HelveticaBold);
+      const p = d.addPage([612, 792]);
+      p.drawText(title, { x: 72, y: 700, size: 20, font: fb, color: rgb(.12, .13, .15) });
+      lines.forEach((l, i) => p.drawText(l, { x: 72, y: 660 - i * 22, size: 11, font: f, color: rgb(.12, .13, .15) }));
+      return await d.save();
+    }
+  };
+  window.Hub = Hub;
+})();
+
+</script>
+<script>
+/* Portfolio preview: one free download per tool per visitor (kept in this browser only). */
+(function () {
+  var OWNER_EMAIL = 'miabr.marie@gmail.com', OWNER_CODE = 'mia-unlock-2026', FREE_USES = 1, KEY = 'hubPreviewUses:v1';
+  var tool = (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '') || 'index';
+  var toolName = (document.title.split(' · ')[0] || 'this tool');
+  var read = function () {
+    var d = {};
+    try { d = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+    var m = document.cookie.match(/(?:^|; )hubPreview=([^;]+)/);
+    if (m) { try { var c = JSON.parse(decodeURIComponent(m[1])); for (var k in c) d[k] = Math.max(d[k] || 0, c[k]); } catch (e) {} }
+    return d;
+  };
+  var write = function (d) {
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+    try { document.cookie = 'hubPreview=' + encodeURIComponent(JSON.stringify(d)) + ';max-age=31536000;path=/;SameSite=Lax'; } catch (e) {}
+  };
+  var q = new URLSearchParams(location.search);
+  if (q.get('unlock') === OWNER_CODE) { try { localStorage.setItem(KEY + ':owner', '1'); } catch (e) {} }
+  if (q.get('relock') === OWNER_CODE) { try { localStorage.removeItem(KEY + ':owner'); localStorage.removeItem(KEY); } catch (e) {} document.cookie = 'hubPreview=;max-age=0;path=/'; }
+  var isOwner = function () { try { return localStorage.getItem(KEY + ':owner') === '1'; } catch (e) { return false; } };
+  var left = function () { return isOwner() ? Infinity : Math.max(0, FREE_USES - (read()[tool] || 0)); };
+
+  var css = document.createElement('style');
+  css.textContent = '.pv-bar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;background:#2A2416;color:#F1DDB2;border-bottom:1px solid #4A3C1E;font:500 13px Jost,system-ui,sans-serif;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));text-align:center}' +
+    '.pv-bar b{color:#FFE9B8}.pv-bar a{color:#FFD27A}' +
+    '.pv-back{position:fixed;inset:0;z-index:1000;background:rgba(8,9,10,.72);display:flex;align-items:center;justify-content:center;padding:16px}' +
+    '.pv-card{background:#1F2124;color:#ECE8E1;border:1px solid #3a3d42;border-radius:12px;max-width:440px;width:100%;padding:26px 24px;box-shadow:0 20px 60px rgba(0,0,0,.5);font-family:Jost,system-ui,sans-serif}' +
+    '.pv-card h2{font-family:"Bodoni Moda",Georgia,serif;font-size:26px;margin:0 0 8px;line-height:1.15}' +
+    '.pv-card p{margin:0 0 12px;color:#C9C4BA;line-height:1.5;font-size:15px}' +
+    '.pv-mail{display:flex;gap:8px;align-items:center;background:#16171A;border:1px solid #33363B;border-radius:8px;padding:10px 12px;margin:6px 0 14px;font:500 15px "IBM Plex Mono",ui-monospace,monospace;color:#FFE1A3;word-break:break-all;user-select:all}' +
+    '.pv-row{display:flex;flex-wrap:wrap;gap:8px}' +
+    '.pv-btn{border:1px solid #3a3d42;background:transparent;color:#ECE8E1;border-radius:6px;padding:9px 14px;font:500 14px Jost,system-ui,sans-serif;cursor:pointer;text-decoration:none}' +
+    '.pv-btn.main{background:#D9A24E;border-color:#D9A24E;color:#1B1408;font-weight:600}' +
+    '.pv-btn:focus-visible{outline:2px solid #D9A24E;outline-offset:2px}';
+  document.head.appendChild(css);
+
+  var bar = document.createElement('div'); bar.className = 'pv-bar'; bar.setAttribute('role', 'note');
+  function updateBar() {
+    if (isOwner()) { bar.innerHTML = '<span><b>Owner mode</b> · unlimited downloads in this browser</span>'; return; }
+    if (tool === 'index') { bar.innerHTML = '<span>Portfolio preview by Mia · each tool includes <b>' + FREE_USES + ' free download</b>. For full access, contact <a href="mailto:' + OWNER_EMAIL + '">' + OWNER_EMAIL + '</a></span>'; return; }
+    var n = left();
+    bar.innerHTML = n > 0
+      ? '<span>Portfolio preview · <b>' + n + ' free download' + (n > 1 ? 's' : '') + '</b> left for this tool</span>'
+      : '<span>You\'ve used your free download for this tool · <a href="mailto:' + OWNER_EMAIL + '">Contact Mia</a> for full access</span>';
+  }
+  document.addEventListener('DOMContentLoaded', function () { document.body.prepend(bar); updateBar(); });
+  if (document.body) { document.body.prepend(bar); updateBar(); }
+
+  var lastBlock = 0;
+  function showBlock() {
+    lastBlock = Date.now();
+    if (document.querySelector('.pv-back')) return;
+    var subject = encodeURIComponent('Full access to HR Hub (' + toolName + ')');
+    var back = document.createElement('div'); back.className = 'pv-back'; back.setAttribute('role', 'dialog'); back.setAttribute('aria-modal', 'true');
+    back.innerHTML = '<div class="pv-card"><h2>Free try used</h2>' +
+      '<p>You\'ve used your free download of <b></b>. This toolkit is a portfolio project by Mia: everything runs in your browser and nothing is uploaded.</p>' +
+      '<p>For unlimited use, contact the owner:</p><div class="pv-mail">' + OWNER_EMAIL + '</div>' +
+      '<p>Or hire Mia to build tools like this for your business.</p>' +
+      '<div class="pv-row"><a class="pv-btn main" href="mailto:' + OWNER_EMAIL + '?subject=' + subject + '">Email Mia</a>' +
+      '<button class="pv-btn" data-copy>Copy email</button><button class="pv-btn" data-close>Close</button></div></div>';
+    back.querySelector('b').textContent = toolName;
+    back.addEventListener('click', function (e) {
+      if (e.target === back || e.target.hasAttribute('data-close')) back.remove();
+      if (e.target.hasAttribute('data-copy')) {
+        var t = e.target;
+        (navigator.clipboard ? navigator.clipboard.writeText(OWNER_EMAIL) : Promise.reject()).then(function () { t.textContent = 'Copied'; }, function () {
+          var r = document.createRange(); r.selectNodeContents(back.querySelector('.pv-mail')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); t.textContent = 'Press Ctrl+C';
+        });
+      }
+    });
+    document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { back.remove(); document.removeEventListener('keydown', esc); } });
+    document.body.appendChild(back); back.querySelector('.pv-btn.main').focus();
+  }
+  function allow() {
+    if (isOwner()) return true;
+    if (left() <= 0) { showBlock(); return false; }
+    var d = read(); d[tool] = (d[tool] || 0) + 1; write(d); setTimeout(updateBar, 0);
+    return true;
+  }
+  // Every file a tool saves goes through a download link click.
+  var origClick = HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click = function () {
+    if (this.hasAttribute('download') && !allow()) return;
+    return origClick.apply(this, arguments);
+  };
+  // The email signature tool hands over its result by copying, so count that too.
+  if (tool === 'email-signature' && navigator.clipboard) {
+    var w = navigator.clipboard.write && navigator.clipboard.write.bind(navigator.clipboard);
+    var wt = navigator.clipboard.writeText && navigator.clipboard.writeText.bind(navigator.clipboard);
+    if (w) navigator.clipboard.write = function (x) { return allow() ? w(x) : Promise.resolve(); };
+    if (wt) navigator.clipboard.writeText = function (x) { return allow() ? wt(x) : Promise.resolve(); };
+  }
+  // Don't show "Downloaded" messages right after a blocked download.
+  if (window.Hub && Hub.toast) { var t0 = Hub.toast; Hub.toast = function () { if (Date.now() - lastBlock < 1500) return; return t0.apply(Hub, arguments); }; }
+})();
+</script>
+<script>
+Hub.mount('Fill & Sign');
+const $ = id => document.getElementById(id);
+const FONTS = ['Great Vibes', 'Dancing Script', 'Allura', 'Homemade Apple'];
+const S = { bytes: null, name: '', pdf: null, pages: [], items: [], sel: null, kind: 'sig', mode: 'type', font: FONTS[0], sig: null, ini: null, placing: null };
+let uid = 1;
+
+/* ---------- signature creation ---------- */
+function renderTypedOpts() {
+  const name = $('typedName').value || 'Your Name', txt = S.kind === 'ini' ? initialsOf(name) : name;
+  $('typedOpts').innerHTML = '';
+  FONTS.forEach(f => {
+    const b = document.createElement('button'); b.textContent = txt; b.style.fontFamily = `"${f}", cursive`; b.style.color = $('inkColor').value;
+    b.setAttribute('aria-pressed', f === S.font); b.title = f;
+    b.onclick = () => { S.font = f; renderTypedOpts(); makeTyped(); };
+    $('typedOpts').appendChild(b);
+  });
+}
+const initialsOf = n => n.trim().split(/\s+/).map(w => w[0] || '').join('').toUpperCase().slice(0, 3);
+async function makeTyped() {
+  const name = $('typedName').value.trim(); if (!name) return;
+  const txt = S.kind === 'ini' ? initialsOf(name) : name;
+  await document.fonts.load(`80px "${S.font}"`);
+  const c = document.createElement('canvas'), ctx = c.getContext('2d'), fs = 120;
+  ctx.font = `${fs}px "${S.font}"`; const w = Math.ceil(ctx.measureText(txt).width) + 60;
+  c.width = w; c.height = Math.round(fs * 1.6);
+  ctx.font = `${fs}px "${S.font}"`; ctx.fillStyle = $('inkColor').value; ctx.textBaseline = 'middle'; ctx.fillText(txt, 30, c.height / 2);
+  setMark(trimCanvas(c));
+}
+function trimCanvas(c) {
+  const ctx = c.getContext('2d'), { width: w, height: h } = c, d = ctx.getImageData(0, 0, w, h).data;
+  let x0 = w, y0 = h, x1 = 0, y1 = 0;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 10) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (x1 < x0) return null;
+  const p = 6, o = document.createElement('canvas'); o.width = x1 - x0 + p * 2; o.height = y1 - y0 + p * 2;
+  o.getContext('2d').drawImage(c, x0 - p, y0 - p, o.width, o.height, 0, 0, o.width, o.height);
+  return { url: o.toDataURL('image/png'), ratio: o.width / o.height };
+}
+function setMark(m) {
+  if (!m) return;
+  S[S.kind] = m;
+  const box = S.kind === 'sig' ? $('pvSig') : $('pvIni'); box.innerHTML = ''; const im = new Image(); im.src = m.url; im.alt = ''; box.appendChild(im);
+}
+// drawing pad
+const pad = $('pad'); let drawing = false, last = null;
+function sizePad() { const r = pad.getBoundingClientRect(); if (!r.width) return; pad.width = r.width * 2; pad.height = r.height * 2; }
+pad.addEventListener('pointerdown', e => { drawing = true; pad.setPointerCapture(e.pointerId); last = padPt(e); });
+pad.addEventListener('pointermove', e => {
+  if (!drawing) return; const p = padPt(e), ctx = pad.getContext('2d');
+  ctx.strokeStyle = $('inkColor').value; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(p[0], p[1]); ctx.stroke(); last = p;
+});
+const endPad = () => { if (!drawing) return; drawing = false; setMark(trimCanvas(pad)); };
+pad.addEventListener('pointerup', endPad); pad.addEventListener('pointercancel', endPad);
+function padPt(e) { const r = pad.getBoundingClientRect(); return [(e.clientX - r.left) * pad.width / r.width, (e.clientY - r.top) * pad.height / r.height]; }
+$('clearPad').onclick = () => pad.getContext('2d').clearRect(0, 0, pad.width, pad.height);
+Hub.dropzone($('sigDrop'), { accept: 'image/*', onFiles: async ([f]) => {
+  const img = await Hub.loadImage(await Hub.dataURL(f)), c = document.createElement('canvas');
+  const sc = Math.min(1, 1200 / img.width); c.width = img.width * sc; c.height = img.height * sc;
+  const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0, c.width, c.height);
+  const id = ctx.getImageData(0, 0, c.width, c.height), d = id.data;
+  for (let i = 0; i < d.length; i += 4) { const l = (d[i] + d[i + 1] + d[i + 2]) / 3; if (l > 215) d[i + 3] = 0; else if (l > 160) d[i + 3] = Math.round(d[i + 3] * (215 - l) / 55); }
+  ctx.putImageData(id, 0, 0); setMark(trimCanvas(c));
+} });
+function setSeg(seg, attr, val) { seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset[attr] === val)); }
+$('kindSeg').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.kind = b.dataset.k; setSeg($('kindSeg'), 'k', S.kind); renderTypedOpts(); };
+$('modeSeg').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return; S.mode = b.dataset.m; setSeg($('modeSeg'), 'm', S.mode);
+  $('mType').hidden = S.mode !== 'type'; $('mDraw').hidden = S.mode !== 'draw'; $('mUpload').hidden = S.mode !== 'upload';
+  if (S.mode === 'draw') requestAnimationFrame(sizePad);
+};
+$('typedName').addEventListener('input', () => { renderTypedOpts(); clearTimeout(makeTyped.t); makeTyped.t = setTimeout(makeTyped, 300); });
+$('inkColor').onchange = () => { renderTypedOpts(); if (S.mode === 'type') makeTyped(); document.querySelectorAll('.sigtype').forEach(i => i.style.color = $('inkColor').value); };
+
+/* ---------- document ---------- */
+async function openDoc(bytes, name) {
+  try {
+    S.pdf = await Hub.openPdf(bytes); S.bytes = bytes; S.name = name; S.items = []; S.sel = null; S.confirmUnsigned = false;
+    await readFields();
+    $('drop').hidden = true; $('docInfo').hidden = false; $('docName').textContent = `${name} · ${S.pdf.numPages} page${S.pdf.numPages > 1 ? 's' : ''}`;
+    $('save').disabled = false; await renderPages();
+  } catch (e) { Hub.toast(e.message); }
+}
+async function renderPages() {
+  const st = $('stage'); st.innerHTML = ''; S.pages = [];
+  const avail = Math.max(260, st.clientWidth - 40);
+  for (let i = 1; i <= S.pdf.numPages; i++) {
+    const pg = await S.pdf.getPage(i), v1 = pg.getViewport({ scale: 1 }), scale = Math.min(avail / v1.width, 1.5);
+    const lab = document.createElement('div'); lab.className = 'pg-label'; lab.textContent = `Page ${i}`; st.appendChild(lab);
+    const sh = document.createElement('div'); sh.className = 'sheet'; sh.dataset.p = i - 1;
+    const { canvas, viewport } = await Hub.renderPage(pg, scale);
+    sh.style.width = viewport.width + 'px'; sh.style.height = viewport.height + 'px'; sh.appendChild(canvas); st.appendChild(sh);
+    S.pages.push({ el: sh, vp: viewport, v1, scale });
+    sh.addEventListener('pointerdown', e => onSheetDown(e, i - 1));
+  }
+  drawFields(); drawItems();
+}
+
+/* ---------- form fields ---------- */
+const SIG_NAME = /^(sig|signature)([\s_\-.]|\d|$)/i;
+async function readFields() {
+  S.fields = []; S.values = {}; let n = 0;
+  for (let i = 1; i <= S.pdf.numPages; i++) {
+    let anns = [];
+    try { anns = await (await S.pdf.getPage(i)).getAnnotations(); } catch (e) {}
+    for (const a of anns) {
+      if (a.subtype !== 'Widget' || !a.fieldName || a.readOnly || a.hidden) continue;
+      let kind = null;
+      if (a.fieldType === 'Sig') kind = 'sig';
+      else if (a.fieldType === 'Tx') kind = (SIG_NAME.test(a.fieldName) || /^signature$/i.test(a.alternativeText || '')) ? 'sig' : a.multiLine ? 'multi' : 'text';
+      else if (a.fieldType === 'Btn' && a.checkBox) kind = 'check';
+      else if (a.fieldType === 'Btn' && a.radioButton) kind = 'radio';
+      else if (a.fieldType === 'Ch') kind = 'choice';
+      if (!kind || !a.rect) continue;
+      const f = { id: 'f' + (n++), page: i - 1, name: a.fieldName, kind, rect: a.rect, required: !!a.required,
+        opts: (a.options || []).map(o => ({ v: String(o.exportValue ?? o.displayValue ?? ''), t: String(o.displayValue ?? o.exportValue ?? '') })),
+        on: a.exportValue || a.buttonValue || 'Yes', size: (a.defaultAppearanceData && a.defaultAppearanceData.fontSize) || 0, maxLen: a.maxLen || 0, comb: !!a.comb, align: a.textAlignment || 0, init: a.fieldValue, isDate: /^date/i.test(a.fieldName.split('.').pop()) || /^date/i.test(a.alternativeText || '') };
+      S.fields.push(f);
+      if (!(f.name in S.values)) {
+        const v = a.fieldValue;
+        S.values[f.name] = kind === 'check' ? (!!v && v !== 'Off') : kind === 'radio' ? '' : kind === 'sig' ? '' : Array.isArray(v) ? String(v[0] ?? '') : String(v ?? '');
+      }
+      if (kind === 'radio' && a.fieldValue && a.fieldValue !== 'Off') S.values[f.name] = a.fieldValue;
+    }
+  }
+  // Several checkboxes sharing one name but with different "on" values act as "pick one" (e.g. W-9 line 3a).
+  const groups = {};
+  S.fields.filter(f => f.kind === 'check').forEach(f => (groups[f.name] = groups[f.name] || []).push(f));
+  for (const [name, list] of Object.entries(groups)) {
+    if (list.length > 1 && new Set(list.map(f => f.on)).size > 1) {
+      list.forEach(f => { f.kind = 'radio'; f.boxGroup = true; });
+      S.values[name] = (list.find(f => f.init && f.init === f.on) || {}).on || '';
+    }
+  }
+  $('formPanel').hidden = !S.fields.length; updateFormInfo();
+}
+const isFilled = f => f.kind === 'check' ? true : f.kind === 'radio' ? !!S.values[f.name] : String(S.values[f.name] ?? '').trim() !== '';
+const signedSpots = () => new Set(S.items.filter(i => i.spot).map(i => i.spot));
+const sigDone = f => signedSpots().has(f.id) || String(S.values[f.name] ?? '').trim() !== '';
+function viewRect(p, rect, vp) { const [x1, y1] = vp.convertToViewportPoint(rect[0], rect[1]), [x2, y2] = vp.convertToViewportPoint(rect[2], rect[3]); return { L: Math.min(x1, x2), T: Math.min(y1, y2), W: Math.abs(x2 - x1), H: Math.abs(y2 - y1) }; }
+function drawFields() {
+  document.querySelectorAll('.ff,.sigspot').forEach(n => n.remove());
+  for (const f of S.fields) {
+    const p = S.pages[f.page]; if (!p) continue;
+    const { L, T, W, H } = viewRect(p, f.rect, p.vp);
+    let el;
+    if (f.kind === 'sig') {
+      el = document.createElement('div'); el.className = 'sigspot';
+      const inp = document.createElement('input'); inp.type = 'text'; inp.className = 'sigtype'; inp.dataset.fid = f.id;
+      inp.placeholder = H > 18 ? 'Type your name to sign' : 'Sign'; inp.value = S.values[f.name] || '';
+      inp.setAttribute('aria-label', 'Signature: type your name'); inp.style.fontSize = Math.max(11, Math.min(H * .72, 36)) + 'px';
+      inp.style.color = $('inkColor').value;
+      inp.addEventListener('input', () => { S.values[f.name] = inp.value; syncSame(f, inp); updateFormInfo(); el.classList.remove('missing'); });
+      inp.addEventListener('change', () => { if (inp.value.trim()) stampDates(false); });
+      const use = document.createElement('button'); use.type = 'button'; use.className = 'sigdraw'; use.textContent = '✍';
+      use.title = 'Use the signature from step 2 instead (drawn or uploaded)'; use.setAttribute('aria-label', use.title);
+      use.addEventListener('click', e => { e.stopPropagation(); signSpot(f); });
+      el.append(inp, use); el.addEventListener('pointerdown', e => e.stopPropagation());
+    } else {
+      el = document.createElement('div'); el.className = 'ff';
+      let inp;
+      if (f.kind === 'check' || f.kind === 'radio') {
+        inp = document.createElement('input'); inp.type = f.kind === 'check' ? 'checkbox' : 'radio';
+        if (f.kind === 'radio') { inp.name = 'r_' + f.name; inp.checked = S.values[f.name] === f.on; } else inp.checked = !!S.values[f.name];
+        inp.addEventListener('change', () => { S.values[f.name] = f.kind === 'check' ? inp.checked : f.on; syncSame(f, inp); updateFormInfo(); });
+        if (f.kind === 'radio') {
+          inp.addEventListener('pointerdown', () => { inp.dataset.was = inp.checked ? '1' : ''; });
+          inp.addEventListener('click', () => { if (inp.dataset.was) { inp.checked = false; S.values[f.name] = ''; inp.dataset.was = ''; updateFormInfo(); } });
+        }
+      } else if (f.kind === 'choice') {
+        inp = document.createElement('select');
+        inp.innerHTML = '<option value=""></option>' + f.opts.map(o => `<option value="${Hub.esc(o.v)}">${Hub.esc(o.t)}</option>`).join('');
+        inp.value = S.values[f.name] || '';
+        inp.addEventListener('change', () => { S.values[f.name] = inp.value; syncSame(f, inp); updateFormInfo(); });
+      } else {
+        inp = document.createElement(f.kind === 'multi' ? 'textarea' : 'input'); if (f.kind !== 'multi') inp.type = 'text';
+        inp.value = S.values[f.name] || ''; if (f.maxLen) inp.maxLength = f.maxLen;
+        const pts = f.size || Math.min(12, (H / p.scale) * 0.62); inp.style.fontSize = Math.max(7, pts * p.scale) + 'px';
+        inp.addEventListener('input', () => { S.values[f.name] = inp.value; syncSame(f, inp); updateFormInfo(); el.classList.remove('missing'); });
+      }
+      if (f.kind === 'choice' || f.kind === 'text' || f.kind === 'multi') inp.style.fontSize = inp.style.fontSize || Math.max(8, Math.min(12, (H / p.scale) * .62) * p.scale) + 'px';
+      inp.dataset.fid = f.id; inp.setAttribute('aria-label', f.name + (f.required ? ' (required)' : ''));
+      if (f.required) inp.required = true;
+      el.appendChild(inp);
+      el.addEventListener('pointerdown', e => e.stopPropagation());
+    }
+    Object.assign(el.style, { left: L + 'px', top: T + 'px', width: W + 'px', height: H + 'px' });
+    el.dataset.fid = f.id; p.el.appendChild(el);
+  }
+}
+/** Fill date fields with today's date (MM/DD/YYYY) when the form is signed. */
+function stampDates(onlyEmpty) {
+  const d = new Date(), p2 = n => String(n).padStart(2, '0'), today = `${p2(d.getMonth() + 1)}/${p2(d.getDate())}/${d.getFullYear()}`;
+  for (const f of S.fields) {
+    if (!f.isDate || f.kind !== 'text' || (onlyEmpty && String(S.values[f.name] || '').trim())) continue;
+    S.values[f.name] = today;
+    document.querySelectorAll(`input[data-fid="${f.id}"]`).forEach(i => { i.value = today; });
+  }
+  updateFormInfo();
+}
+function syncSame(f, src) {
+  document.querySelectorAll('input[data-fid],textarea[data-fid],select[data-fid]').forEach(n => {
+    if (n === src) return; const g = S.fields.find(q => q.id === n.dataset.fid);
+    if (!g || g.name !== f.name || g.kind === 'radio') return;
+    if (g.kind === 'check') n.checked = !!S.values[f.name]; else n.value = S.values[f.name] ?? '';
+  });
+}
+function signSpot(f) {
+  if (!S.sig) { Hub.toast('Create your signature first (step 2), then click the box again.', 4000); $('pvSig').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+  const p = S.pages[f.page], { L, T, W, H } = viewRect(p, f.rect, p.v1), m = S.sig;
+  let w = W * .94, h = w / m.ratio; if (h > H * .92) { h = H * .92; w = h * m.ratio; }
+  S.items = S.items.filter(i => i.spot !== f.id);
+  S.items.push({ id: uid++, type: 'img', url: m.url, w, h, page: f.page, x: L + (W - w) / 2, y: T + (H - h) / 2, spot: f.id, cover: [L, T, W, H] });
+  S.confirmUnsigned = false; drawItems(); stampDates(false);
+}
+/** Turn a typed name into a cursive signature image. */
+async function typedSignature(text) {
+  try { await document.fonts.load('80px "Great Vibes"'); } catch (e) {}
+  const c = document.createElement('canvas'), ctx = c.getContext('2d'), fs = 120, face = `${fs}px "Great Vibes", "Dancing Script", cursive`;
+  ctx.font = face; c.width = Math.ceil(ctx.measureText(text).width) + 60; c.height = Math.round(fs * 1.6);
+  ctx.font = face; ctx.fillStyle = $('inkColor').value; ctx.textBaseline = 'middle'; ctx.fillText(text, 30, c.height / 2);
+  return trimCanvas(c);
+}
+function updateFormInfo() {
+  if (!S.fields || !S.fields.length) return;
+  const uniq = [...new Map(S.fields.filter(f => f.kind !== 'sig' && f.kind !== 'check').map(f => [f.name, f])).values()];
+  const sigs = S.fields.filter(f => f.kind === 'sig'), sp = signedSpots();
+  const parts = [];
+  if (uniq.length) parts.push(`${uniq.filter(isFilled).length} of ${uniq.length} fields filled`);
+  if (sigs.length) parts.push(`${sigs.filter(sigDone).length} of ${sigs.length} signed`);
+  $('formInfo').textContent = parts.join(' · ') || `${S.fields.length} checkbox${S.fields.length > 1 ? 'es' : ''}`;
+}
+function firstMissing(requiredOnly) {
+  const sp = signedSpots();
+  return S.fields.find(f => f.kind === 'sig' ? !sigDone(f) && !requiredOnly : f.kind !== 'check' && (!requiredOnly || f.required) && !isFilled(f));
+}
+function goToField(f) {
+  const el = document.querySelector(`.ff[data-fid="${f.id}"], .sigspot[data-fid="${f.id}"]`); if (!el) return;
+  el.classList.add('missing'); el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  setTimeout(() => { const t = el.querySelector('input,textarea,select') || el; t.focus({ preventScroll: true }); }, 400);
+}
+$('nextField').onclick = () => { const f = firstMissing(false); if (!f) Hub.toast('Everything is filled in and signed.'); else goToField(f); };
+
+/** Put the typed answers into the form, then (if locking) paint every field onto the page and remove all form boxes. */
+async function fillAndLock(doc, font, sym, lock) {
+  const L = PDFLib;
+  let form; try { form = doc.getForm(); } catch (e) { console.warn('No readable form', e); }
+  const sigNames = new Set(S.fields.filter(f => f.kind === 'sig').map(f => f.name));
+  const failed = new Set();
+  let fields = []; try { fields = form ? form.getFields() : []; } catch (e) { console.warn(e); }
+  for (const field of fields) {
+    let name; try { name = field.getName(); } catch (e) { continue; }
+    if (sigNames.has(name) || field instanceof L.PDFSignature || field instanceof L.PDFButton || !(name in S.values)) continue;
+    const v = S.values[name], meta = S.fields.find(f => f.name === name);
+    try {
+      if (field instanceof L.PDFTextField) { const t = v ? Hub.winAnsi(v) : ''; const max = field.getMaxLength(); field.setText(max ? t.slice(0, max) : t); }
+      else if (field instanceof L.PDFCheckBox && meta && meta.boxGroup) {
+        const target = L.PDFName.of(v || 'Off'); field.acroField.dict.set(L.PDFName.of('V'), target);
+        for (const w of field.acroField.getWidgets()) w.setAppearanceState(w.getOnValue() === target ? target : L.PDFName.of('Off'));
+        continue;
+      }
+      else if (field instanceof L.PDFCheckBox) { if (v) field.check(); else field.uncheck(); }
+      else if (field instanceof L.PDFRadioGroup) { if (v) field.select(v); }
+      else if (field instanceof L.PDFDropdown || field instanceof L.PDFOptionList) {
+        if (!v) field.clear();
+        else { const disp = ((meta && meta.opts.find(o => o.v === v)) || {}).t; try { field.select(disp || v); } catch (e) { field.select(v); } }
+      }
+      if (field.needsAppearancesUpdate()) field.defaultUpdateAppearances(font);
+    } catch (e) { failed.add(name); console.warn('Drawing', name, 'by hand:', e && e.message); }
+  }
+  if (!lock) return;
+  drawByHand(doc, font, sym, failed);
+  flattenWidgets(doc, new Set([...sigNames, ...failed]));
+}
+/** Draw answers for fields the form library couldn't handle. */
+function drawByHand(doc, font, sym, names) {
+  const ink = PDFLib.rgb(.07, .07, .07);
+  for (const f of S.fields) {
+    if (f.kind === 'sig' || !names.has(f.name)) continue;
+    const page = doc.getPage(f.page), [x1, y1, x2, y2] = f.rect, W = x2 - x1, H = y2 - y1, v = S.values[f.name];
+    if (f.kind === 'check' || f.kind === 'radio') {
+      if (f.kind === 'check' ? v : v === f.on) { const s = Math.min(W, H) * .8; page.drawText('4', { x: x1 + (W - s * .78) / 2, y: y1 + (H - s * .7) / 2, size: s, font: sym, color: ink }); }
+      continue;
+    }
+    let txt = f.kind === 'choice' ? (((f.opts.find(o => o.v === v)) || {}).t || v || '') : (v || '');
+    txt = Hub.winAnsi(txt); if (!txt) continue;
+    const size = f.size || (f.kind === 'multi' ? 10 : Math.min(12, H * .62));
+    if (f.kind === 'multi') { Hub.wrap(txt, font, size, W - 4).forEach((l, i) => { const y = y2 - 2 - size * (i + 1) * 1.15 + size * .2; if (y > y1 && l) page.drawText(l, { x: x1 + 2, y, size, font, color: ink }); }); continue; }
+    const y = y1 + (H - size) / 2 + size * .22;
+    if (f.comb && f.maxLen) { const cw = W / f.maxLen; [...txt].slice(0, f.maxLen).forEach((ch, i) => page.drawText(ch, { x: x1 + cw * i + (cw - font.widthOfTextAtSize(ch, size)) / 2, y, size, font, color: ink })); continue; }
+    const tw = font.widthOfTextAtSize(txt, size), x = f.align === 1 ? x1 + (W - tw) / 2 : f.align === 2 ? x2 - 2 - tw : x1 + 2;
+    page.drawText(txt, { x, y, size, font, color: ink });
+  }
+}
+/** Paint each form box's current look onto the page, then delete every form box and the form itself. */
+function flattenWidgets(doc, skipNames) {
+  const { PDFName, PDFDict, PDFRef, PDFStream, PDFArray, PDFNumber, pushGraphicsState, popGraphicsState, concatTransformationMatrix, drawObject } = PDFLib;
+  const ctx = doc.context, N = n => PDFName.of(n), num = o => (o instanceof PDFNumber ? o.asNumber() : 0);
+  const fullName = d => { const parts = []; let cur = d, g = 0; while (cur instanceof PDFDict && g++ < 25) { const t = cur.lookup(N('T')); if (t && t.decodeText) parts.unshift(t.decodeText()); cur = cur.lookup(N('Parent')); } return parts.join('.'); };
+  for (const page of doc.getPages()) {
+    let annots; try { annots = page.node.Annots(); } catch (e) { annots = null; }
+    if (!annots) continue;
+    const keep = [];
+    for (let i = 0; i < annots.size(); i++) {
+      const raw = annots.get(i); let w; try { w = ctx.lookup(raw); } catch (e) { continue; }
+      if (!(w instanceof PDFDict) || w.get(N('Subtype')) !== N('Widget')) { keep.push(raw); continue; }
+      try {
+        const flags = num(w.lookup(N('F'))); if ((flags & 2) || (flags & 32)) continue;
+        if (skipNames.has(fullName(w))) continue;
+        const ap = w.lookup(N('AP')); if (!(ap instanceof PDFDict)) continue;
+        let nRaw = ap.get(N('N')), nObj = ctx.lookup(nRaw);
+        if (nObj instanceof PDFDict) { const as = w.get(N('AS')); if (!as) continue; nRaw = nObj.get(as); nObj = ctx.lookup(nRaw); }
+        if (!(nObj instanceof PDFStream) || !(nRaw instanceof PDFRef)) continue;
+        const r = w.lookup(N('Rect'), PDFArray).asArray().map(num);
+        const rx = Math.min(r[0], r[2]), ry = Math.min(r[1], r[3]), rw = Math.abs(r[2] - r[0]), rh = Math.abs(r[3] - r[1]);
+        const bbA = nObj.dict.lookup(N('BBox')), bb = bbA instanceof PDFArray ? bbA.asArray().map(num) : [0, 0, rw, rh];
+        const mA = nObj.dict.lookup(N('Matrix')), m = mA instanceof PDFArray ? mA.asArray().map(num) : [1, 0, 0, 1, 0, 0];
+        const pts = [[bb[0], bb[1]], [bb[2], bb[1]], [bb[0], bb[3]], [bb[2], bb[3]]].map(([x, y]) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]]);
+        const tx1 = Math.min(...pts.map(q => q[0])), tx2 = Math.max(...pts.map(q => q[0])), ty1 = Math.min(...pts.map(q => q[1])), ty2 = Math.max(...pts.map(q => q[1]));
+        if (tx2 - tx1 < 1e-6 || ty2 - ty1 < 1e-6 || rw < 1e-6 || rh < 1e-6) continue;
+        const sx = rw / (tx2 - tx1), sy = rh / (ty2 - ty1), key = page.node.newXObject('FlatWidget', nRaw);
+        page.pushOperators(pushGraphicsState(), concatTransformationMatrix(sx, 0, 0, sy, rx - sx * tx1, ry - sy * ty1), drawObject(key), popGraphicsState());
+      } catch (e) { console.warn('Could not paint a form box', e && e.message); }
+    }
+    page.node.set(N('Annots'), ctx.obj(keep));
+  }
+  doc.catalog.delete(N('AcroForm'));
+}
+const drop = Hub.dropzone($('drop'), { accept: 'application/pdf,.pdf', onFiles: async ([f]) => openDoc(await Hub.bytes(f), f.name) });
+$('swap').onclick = () => drop.click();
+$('sample').onclick = async e => { e.preventDefault(); openDoc(await Hub.samplePdf(['I agree to the terms of this acknowledgment.', '', '', '', 'Employee signature: ______________________', '', 'Date: ____________', '', 'Initials: ______'], 'Policy Acknowledgment'), 'sample-acknowledgment.pdf'); };
+
+/* ---------- items ---------- */
+function fmtDate(d = new Date()) {
+  const m = d.getMonth() + 1, dd = d.getDate(), y = d.getFullYear(), p = n => String(n).padStart(2, '0');
+  return { us: `${p(m)}/${p(dd)}/${y}`, iso: `${y}-${p(m)}-${p(dd)}`, intl: `${p(dd)}/${p(m)}/${y}`, long: d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }[$('dateFmt').value];
+}
+document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => {
+  const k = b.dataset.add;
+  if ((k === 'sig' || k === 'ini') && !S[k]) { Hub.toast(k === 'sig' ? 'Create your signature first.' : 'Switch to Initials and create them first.'); return; }
+  if (!S.pdf) { Hub.toast('Choose a PDF first.'); return; }
+  S.placing = k; S.pages.forEach(p => p.el.classList.add('placing')); $('placeHint').textContent = 'Now click on the page where it should go.';
+});
+function onSheetDown(e, pi) {
+  if (!S.placing) { if (!e.target.closest('.item')) { S.sel = null; drawItems(); } return; }
+  const p = S.pages[pi], r = p.el.getBoundingClientRect(), x = (e.clientX - r.left) / p.scale, y = (e.clientY - r.top) / p.scale, k = S.placing;
+  let it;
+  if (k === 'sig' || k === 'ini') { const m = S[k], w = k === 'sig' ? 160 : 60; it = { type: 'img', url: m.url, w, h: w / m.ratio }; }
+  else if (k === 'check') it = { type: 'text', text: '✓', size: 18 };
+  else if (k === 'date') it = { type: 'text', text: fmtDate(), size: 11 };
+  else if (k === 'name') it = { type: 'text', text: $('typedName').value || 'Your Name', size: 11 };
+  else it = { type: 'text', text: 'Type here', size: 11 };
+  it.id = uid++; it.page = pi; it.x = x - (it.w || 0) / 2; it.y = y - (it.h || it.size) / 2;
+  S.items.push(it); S.sel = it.id; S.placing = null; S.pages.forEach(q => q.el.classList.remove('placing'));
+  $('placeHint').textContent = 'Drag to move, use the corner to resize. Click text to edit it.';
+  drawItems(); if (k === 'text') focusText(it.id);
+}
+function drawItems() {
+  document.querySelectorAll('.item').forEach(n => n.remove());
+  for (const it of S.items) {
+    const p = S.pages[it.page]; if (!p) continue; const sc = p.scale, d = document.createElement('div');
+    d.className = 'item' + (it.id === S.sel ? ' sel' : ''); d.dataset.id = it.id;
+    d.style.left = it.x * sc + 'px'; d.style.top = it.y * sc + 'px';
+    if (it.type === 'img') { d.style.width = it.w * sc + 'px'; d.style.height = it.h * sc + 'px'; d.innerHTML = `<img src="${it.url}" alt="">`; }
+    else { const t = document.createElement('span'); t.className = 'txt'; t.textContent = it.text; t.style.fontSize = it.size * sc + 'px'; t.style.color = it.text === '✓' ? '#111' : '#111'; d.appendChild(t);
+      t.addEventListener('dblclick', () => focusText(it.id)); }
+    d.insertAdjacentHTML('beforeend', '<span class="h" aria-hidden="true"></span><button class="x" aria-label="Remove">✕</button>');
+    d.querySelector('.x').addEventListener('pointerdown', e => { e.stopPropagation(); S.items = S.items.filter(q => q.id !== it.id); S.sel = null; drawItems(); });
+    d.addEventListener('pointerdown', e => startDrag(e, it, d));
+    p.el.appendChild(d);
+  }
+  const sp = signedSpots();
+  document.querySelectorAll('.sigspot').forEach(b => { b.classList.toggle('done', sp.has(b.dataset.fid)); if (sp.has(b.dataset.fid)) b.classList.remove('missing'); });
+  updateFormInfo();
+}
+function focusText(id) {
+  const d = document.querySelector(`.item[data-id="${id}"] .txt`), it = S.items.find(q => q.id === id); if (!d) return;
+  d.contentEditable = 'true'; d.focus(); const r = document.createRange(); r.selectNodeContents(d); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  d.onblur = () => { d.contentEditable = 'false'; it.text = d.innerText.replace(/\n$/, ''); if (!it.text.trim()) { S.items = S.items.filter(q => q.id !== id); drawItems(); } };
+  d.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); d.blur(); } };
+}
+let drag = null;
+function startDrag(e, it, el) {
+  if (e.target.isContentEditable) return;
+  e.stopPropagation(); S.sel = it.id; document.querySelectorAll('.item').forEach(n => n.classList.toggle('sel', +n.dataset.id === it.id));
+  const resize = e.target.classList.contains('h');
+  drag = { it, el, resize, sx: e.clientX, sy: e.clientY, o: { ...it }, sc: S.pages[it.page].scale }; el.setPointerCapture(e.pointerId);
+}
+document.addEventListener('pointermove', e => {
+  if (!drag) return; const { it, el, o, sc } = drag, dx = (e.clientX - drag.sx) / sc, dy = (e.clientY - drag.sy) / sc;
+  if (drag.resize) {
+    if (it.type === 'img') { it.w = Math.max(20, o.w + dx); it.h = it.w * (o.h / o.w); el.style.width = it.w * sc + 'px'; el.style.height = it.h * sc + 'px'; }
+    else { it.size = Math.max(6, Math.min(72, o.size + dy * .6)); el.querySelector('.txt').style.fontSize = it.size * sc + 'px'; }
+  } else { it.x = o.x + dx; it.y = o.y + dy; el.style.left = it.x * sc + 'px'; el.style.top = it.y * sc + 'px'; }
+});
+document.addEventListener('pointerup', () => { drag = null; });
+document.addEventListener('keydown', e => {
+  if (e.target.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if ((e.key === 'Delete' || e.key === 'Backspace') && S.sel) { S.items = S.items.filter(q => q.id !== S.sel); S.sel = null; drawItems(); }
+});
+
+/* ---------- export ---------- */
+$('save').onclick = async () => {
+  if (!S.items.length && !S.fields.length) { Hub.toast('Place your signature on the page first.'); return; }
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  const reqMissing = firstMissing(true);
+  if (reqMissing) { Hub.toast('Fill in the required fields first. The missing one is outlined in red.', 4500); goToField(reqMissing); return; }
+  const unsigned = S.fields.filter(f => f.kind === 'sig' && !sigDone(f));
+  if (unsigned.length && !S.confirmUnsigned) {
+    S.confirmUnsigned = true; goToField(unsigned[0]);
+    Hub.toast(`${unsigned.length} signature box${unsigned.length > 1 ? 'es are' : ' is'} not signed yet. Click Download again to save anyway.`, 5000); return;
+  }
+  $('save').disabled = true; $('save').textContent = 'Building…';
+  try {
+    await Hub.load('pdflib');
+    const { PDFDocument, StandardFonts, degrees, rgb } = PDFLib;
+    const doc = await PDFDocument.load(S.bytes, { ignoreEncryption: true });
+    const font = await doc.embedFont(StandardFonts.Helvetica), sym = await doc.embedFont(StandardFonts.ZapfDingbats), imgs = {};
+    const lock = S.fields.length ? $('lockForm').checked : true;
+    if (lock) stampDates(true);
+    await fillAndLock(doc, font, sym, lock);
+    const placed = signedSpots();
+    for (const f of S.fields) {
+      const t = String(S.values[f.name] ?? '').trim();
+      if (f.kind !== 'sig' || placed.has(f.id) || !t) continue;
+      const m = await typedSignature(t); if (!m) continue;
+      const img = await doc.embedPng(m.url), page = doc.getPage(f.page), [x1, y1, x2, y2] = f.rect, W = x2 - x1, H = y2 - y1;
+      let w = W * .94, h = w / m.ratio; if (h > H * .9) { h = H * .9; w = h * m.ratio; }
+      page.drawRectangle({ x: x1 - 1.5, y: y1 - 1.5, width: W + 3, height: H + 3, color: rgb(1, 1, 1) });
+      page.drawImage(img, { x: x1 + (W - w) / 2, y: y1 + (H - h) / 2, width: w, height: h });
+    }
+    for (const it of S.items) {
+      const p = S.pages[it.page], page = doc.getPage(it.page), R = (p.v1.rotation || 0);
+      const toPdf = (x, y) => p.v1.convertToPdfPoint(x, y);
+      if (it.cover) {
+        const [cx, cy] = toPdf(it.cover[0] - 1.5, it.cover[1] + it.cover[3] + 1.5);
+        page.drawRectangle({ x: cx, y: cy, width: it.cover[2] + 3, height: it.cover[3] + 3, color: rgb(1, 1, 1), rotate: degrees(R) });
+      }
+      if (it.type === 'img') {
+        imgs[it.url] = imgs[it.url] || await doc.embedPng(it.url);
+        const [bx, by] = toPdf(it.x, it.y + it.h);
+        page.drawImage(imgs[it.url], { x: bx, y: by, width: it.w, height: it.h, rotate: degrees(R) });
+      } else {
+        const [bx, by] = toPdf(it.x, it.y + it.size * .85);
+        if (it.text === '✓') page.drawText('4', { x: bx, y: by, size: it.size, font: sym, color: rgb(0, 0, 0), rotate: degrees(R) });
+        else Hub.winAnsi(it.text).split('\n').forEach((l, i) => {
+          const th = R * Math.PI / 180, lh = it.size * 1.2;
+          page.drawText(l, { x: bx + Math.sin(th) * lh * i, y: by - Math.cos(th) * lh * i, size: it.size, font, color: rgb(.07, .07, .07), rotate: degrees(R) });
+        });
+      }
+    }
+    const locked = S.fields.length && lock;
+    Hub.download(await doc.save(), Hub.baseName(S.name) + (locked ? '-signed-locked.pdf' : '-signed.pdf'), 'application/pdf');
+    Hub.toast(locked ? 'Downloaded. The form is locked, so answers can\'t be changed.' : 'Signed PDF downloaded.', 4000);
+    S.confirmUnsigned = false;
+  } catch (e) { console.error(e); Hub.toast('Could not build the PDF: ' + e.message); }
+  $('save').disabled = false; $('save').textContent = 'Download signed PDF';
+};
+renderTypedOpts(); makeTyped();
+let rz, lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (Math.abs(window.innerWidth - lastW) < 40) return; // ignore tiny changes (e.g. a scrollbar appearing)
+  lastW = window.innerWidth; clearTimeout(rz);
+  rz = setTimeout(() => { if (S.pdf && !drag) Hub.keepScroll(renderPages); }, 300);
+});
+</script>
+</body>
+</html>
